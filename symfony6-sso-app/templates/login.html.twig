@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - Symfony 6 SSO{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Connexion SSO</h3>
+                </div>
+                <div class="card-body">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    <div class="text-center">
+                        <h4>Connexion via Keycloak</h4>
+                        <p class="text-muted">Utilisez votre compte Keycloak pour vous connecter</p>
+
+                        <a href="{{ path('connect_keycloak_start') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter avec Keycloak
+                        </a>
+                    </div>
+
+                    <hr>
+
+                    <div class="text-center">
+                        <small class="text-muted">
+                            Cette application utilise Keycloak pour l'authentification unique (SSO).<br>
+                            Vous serez redirigé vers le serveur d'authentification.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
