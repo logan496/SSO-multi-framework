@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ title }}</h1>
+            <p class="lead">{{ content }}</p>
+
+            <h3>Informations techniques</h3>
+            <table class="table table-striped">
+                <tr>
+                    <td><strong>Version PHP</strong></td>
+                    <td>{{ constant('PHP_VERSION') }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Version Symfony</strong></td>
+                    <td>{{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Environnement</strong></td>
+                    <td>{{ app.environment }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Mode Debug</strong></td>
+                    <td>{{ app.debug ? 'Activé' : 'Désactivé' }}</td>
+                </tr>
+            </table>
+
+            <h3>Structure du projet</h3>
+            <ul>
+                <li><strong>app/</strong> - Configuration et templates</li>
+                <li><strong>src/</strong> - Code source de l'application</li>
+                <li><strong>web/</strong> - Point d'entrée public</li>
+                <li><strong>vendor/</strong> - Dépendances</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Navigation</h5>
+                </div>
+                <div class="card-body">
+                    <a href="{{ path('homepage') }}" class="btn btn-primary btn-block">Retour à l'accueil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

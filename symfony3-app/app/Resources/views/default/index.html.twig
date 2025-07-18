@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <h1 class="display-4">{{ title }}</h1>
+        <p class="lead">{{ message }}</p>
+        <hr class="my-4">
+        <p>Cette application utilise Symfony 3.4 avec Twig pour le templating.</p>
+        <a class="btn btn-primary btn-lg" href="{{ path('about') }}" role="button">En savoir plus</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Fonctionnalités</h3>
+            <ul class="list-group">
+                <li class="list-group-item">Routing avec annotations</li>
+                <li class="list-group-item">Templates Twig</li>
+                <li class="list-group-item">Bootstrap CSS</li>
+                <li class="list-group-item">Contrôleurs Symfony</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3>Technologies</h3>
+            <ul class="list-group">
+                <li class="list-group-item">PHP {{ constant('PHP_VERSION') }}</li>
+                <li class="list-group-item">Symfony 3.4</li>
+                <li class="list-group-item">Twig</li>
+                <li class="list-group-item">Bootstrap 4</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3>Liens utiles</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="https://symfony.com/doc/3.4/index.html">Documentation Symfony 3</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="https://twig.symfony.com/">Documentation Twig</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
