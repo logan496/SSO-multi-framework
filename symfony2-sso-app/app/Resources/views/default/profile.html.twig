@@ -1,0 +1,14 @@
+{# app/Resources/views/default/profile.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Profil utilisateur</h2>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p><strong>Nom d'utilisateur:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>ID Keycloak:</strong> {{ user.keycloakId }}</p>
+            <p><strong>Rôles:</strong> {{ user.roles|join(', ') }}</p>
+        </div>
+    </div>
+{% endblock %}

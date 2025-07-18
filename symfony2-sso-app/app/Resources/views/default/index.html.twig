@@ -1,0 +1,16 @@
+{# app/Resources/views/default/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="jumbotron">
+        <h1>Bienvenue sur Symfony 2 SSO</h1>
+        {% if user %}
+            <p>Bonjour {{ user.username }} !</p>
+            <p>Vous êtes connecté via Keycloak SSO.</p>
+            <a href="{{ path('profile') }}" class="btn btn-primary">Voir le profil</a>
+        {% else %}
+            <p>Connectez-vous pour accéder à l'application.</p>
+            <a href="{{ path('login') }}" class="btn btn-primary">Se connecter</a>
+        {% endif %}
+    </div>
+{% endblock %}
