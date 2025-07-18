@@ -2,34 +2,34 @@
 
 namespace App\Security;
 
-use App\Service\UserService;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
-use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
+use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
-class KeycloakAuthenticator extends OAuth2Authenticator
+class KeycloakAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
     private ClientRegistry $clientRegistry;
     private RouterInterface $router;
-    private UserService $userService;
+    private UserRepository $userRepository;
 
-    public function __construct(
-        ClientRegistry $clientRegistry,
-        RouterInterface $router,
-        UserService $userService
-    ) {
+    public function __construct(ClientRegistry $clientRegistry, RouterInterface $router, UserRepository $userRepository)
+    {
         $this->clientRegistry = $clientRegistry;
         $this->router = $router;
-        $this->userService = $userService;
+        $this->userRepository = $userRepository;
     }
 
     public function supports(Request $request): ?bool
@@ -43,31 +43,49 @@ class KeycloakAuthenticator extends OAuth2Authenticator
         $accessToken = $this->fetchAccessToken($client);
 
         return new SelfValidatingPassport(
-            new UserBadge($accessToken->getToken(), function () use ($accessToken, $client) {
-                /** @var KeycloakResourceOwner $keycloakUser */
-                $keycloakUser = $client->fetchUserFromToken($accessToken);
+            new UserBadge($accessToken->getToken(), function() use ($accessToken, $client) {
+                /** @var Keycloak $provider */
+                $provider = $client->getOAuth2Provider();
+                $keycloakUser = $provider->getResourceOwner($accessToken);
 
-                $userData = $keycloakUser->toArray();
+                $existingUser = $this->userRepository->findByKeycloakId($keycloakUser->getId());
 
-                // Créer ou mettre à jour l'utilisateur
-                return $this->userService->createOrUpdateUser($userData);
+                if ($existingUser) {
+                    $existingUser->setUpdatedAt(new \DateTimeImmutable());
+                    $this->userRepository->save($existingUser, true);
+                    return $existingUser;
+                }
+
+                $user = new User();
+                $user->setKeycloakId($keycloakUser->getId());
+                $user->setEmail($keycloakUser->getEmail());
+                $user->setName($keycloakUser->getName() ?? $keycloakUser->getPreferredUsername());
+                $user->setRoles(['ROLE_USER']);
+
+                $this->userRepository->save($user, true);
+
+                return $user;
             })
         );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // Rediriger vers la page d'accueil ou dashboard
         return new RedirectResponse($this->router->generate('app_dashboard'));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
+        return new RedirectResponse($this->router->generate('app_login'));
+    }
 
-        return new RedirectResponse($this->router->generate('app_login', ['error' => $message]));
+    public function start(Request $request, AuthenticationException $authException = null): Response
+    {
+        return new RedirectResponse($this->router->generate('app_login'));
+    }
+
+    private function fetchAccessToken(OAuth2ClientInterface $client)
+    {
+        return $client->getAccessToken();
     }
 }
-
-
-

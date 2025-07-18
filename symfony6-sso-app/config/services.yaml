@@ -15,25 +15,6 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Security\KeycloakUserProvider:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@App\Service\UserService'
-
-    App\Security\KeycloakAuthenticator:
-        arguments:
-            - '@knpu.oauth2.registry'
-            - '@router'
-            - '@App\Service\UserService'
-
-    App\Service\UserService:
-        arguments:
-            $keycloakUrl: '%env(KEYCLOAK_URL)%'
-            $keycloakRealm: '%env(KEYCLOAK_REALM)%'

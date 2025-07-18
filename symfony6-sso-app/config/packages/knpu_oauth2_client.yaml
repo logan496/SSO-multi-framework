@@ -2,9 +2,13 @@ knpu_oauth2_client:
     clients:
         keycloak:
             type: keycloak
-            client_id: symfony6-app
+            client_id: '%env(KEYCLOAK_CLIENT_ID)%'
             client_secret: '%env(KEYCLOAK_CLIENT_SECRET)%'
-            auth_server_url: 'http://localhost:8080'
-            realm: 'multiframework-sso'
             redirect_route: connect_keycloak_check
             redirect_params: {}
+            auth_server_url: '%env(KEYCLOAK_SERVER_URL)%'
+            realm: '%env(KEYCLOAK_REALM)%'
+            encryption_algorithm: 'RS256'
+            encryption_key_path: null
+            encryption_key: null
+            use_state: true

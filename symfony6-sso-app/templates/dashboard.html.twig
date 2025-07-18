@@ -1,69 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard - Symfony 6 SSO{% endblock %}
+{% block title %}Dashboard - Symfony SSO App{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-10 mx-auto">
+    <div class="container">
+        <div class="header">
+            <h1>Dashboard Symfony</h1>
+            <div class="user-info">
+                <span>Bienvenue, {{ user.name }}</span>
+                <a href="{{ path('app_logout') }}" class="btn">Se déconnecter</a>
+            </div>
+        </div>
+
+        <div class="grid">
             <div class="card">
-                <div class="card-header">
-                    <h3>Dashboard - Symfony 6 Application</h3>
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-success">
-                        <h4>Bienvenue dans votre dashboard !</h4>
-                        <p>Vous êtes connecté via Keycloak SSO dans l'application Symfony 6.</p>
-                    </div>
+                <h2>Informations utilisateur</h2>
+                <p><strong>Nom :</strong> {{ user.name }}</p>
+                <p><strong>Email :</strong> {{ user.email }}</p>
+                <p><strong>Keycloak ID :</strong> {{ user.keycloakId }}</p>
+                <p><strong>Dernière connexion :</strong> {{ user.updatedAt.format('d/m/Y H:i') }}</p>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5>Informations utilisateur</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p><strong>Username:</strong> {{ user.username }}</p>
-                                    <p><strong>Email:</strong> {{ user.email }}</p>
-                                    <p><strong>Prénom:</strong> {{ user.firstName ?? 'Non renseigné' }}</p>
-                                    <p><strong>Nom:</strong> {{ user.lastName ?? 'Non renseigné' }}</p>
-                                    <p><strong>Keycloak ID:</strong> {{ user.keycloakId }}</p>
-                                    <p><strong>Rôles:</strong> {{ user.roles|join(', ') }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5>Actions disponibles</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-grid gap-2">
-                                        <a href="{{ path('app_profile') }}" class="btn btn-primary">Voir le profil</a>
-                                        <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour à l'accueil</a>
-                                        <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <a href="{{ path('app_profile') }}" class="btn">Voir le profil</a>
+            </div>
 
-                    <div class="mt-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Test SSO</h5>
-                            </div>
-                            <div class="card-body">
-                                <p>Si vous avez déployé d'autres applications (Symfony 2, 3, Laravel, React), vous devriez pouvoir y accéder sans vous reconnecter :</p>
-                                <div class="d-grid gap-2 d-md-block">
-                                    <a href="http://localhost:8001" class="btn btn-outline-primary" target="_blank">Symfony 2 App</a>
-                                    <a href="http://localhost:8002" class="btn btn-outline-primary" target="_blank">Symfony 3 App</a>
-                                    <a href="http://localhost:8004" class="btn btn-outline-primary" target="_blank">Laravel App</a>
-                                    <a href="http://localhost:8005" class="btn btn-outline-primary" target="_blank">React App</a>
-                                </div>
-                            </div>
-                        </div>
+            <div class="card">
+                <h2>Applications du Challenge</h2>
+                <p>Accédez aux autres applications sans vous reconnecter :</p>
+
+                {% for name, url in apps %}
+                    <div style="margin-bottom: 0.5rem;">
+                        <a href="{{ url }}" class="btn" target="_blank">{{ name }}</a>
                     </div>
+                {% endfor %}
+            </div>
+
+            <div class="card">
+                <h2>API Endpoints</h2>
+                <p>Testez les endpoints API :</p>
+
+                <div style="margin-bottom: 0.5rem;">
+                    <a href="{{ path('api_user') }}" class="btn" target="_blank">GET /api/user</a>
                 </div>
+                <div style="margin-bottom: 0.5rem;">
+                    <a href="{{ path('api_status') }}" class="btn" target="_blank">GET /api/status</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Statut SSO</h2>
+                <p><strong>Statut :</strong> <span class="status-connected">✓ Connecté</span></p>
+                <p><strong>Application :</strong> Symfony SSO App</p>
+                <p><strong>Realm :</strong> multiframework-sso</p>
+                <p><strong>Session :</strong> Active</p>
             </div>
         </div>
     </div>

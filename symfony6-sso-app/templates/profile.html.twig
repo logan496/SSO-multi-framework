@@ -1,78 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil - Symfony 6 SSO{% endblock %}
+{% block title %}Profil - Symfony SSO App{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-8 mx-auto">
+    <div class="container">
+        <div class="header">
+            <h1>Mon Profil</h1>
+            <div class="user-info">
+                <a href="{{ path('app_dashboard') }}" class="btn btn-secondary">Retour au Dashboard</a>
+                <a href="{{ path('app_logout') }}" class="btn">Se déconnecter</a>
+            </div>
+        </div>
+
+        <div class="grid">
             <div class="card">
-                <div class="card-header">
-                    <h3>Profil utilisateur</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                                    <i class="fas fa-user text-white fa-2x"></i>
-                                </div>
-                                <h5 class="mt-3">{{ user.firstName ?? user.username }} {{ user.lastName ?? '' }}</h5>
-                                <p class="text-muted">{{ user.email }}</p>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <h5>Informations personnelles</h5>
-                            <table class="table table-striped">
-                                <tr>
-                                    <td><strong>Nom d'utilisateur:</strong></td>
-                                    <td>{{ user.username }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Email:</strong></td>
-                                    <td>{{ user.email }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Prénom:</strong></td>
-                                    <td>{{ user.firstName ?? 'Non renseigné' }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Nom:</strong></td>
-                                    <td>{{ user.lastName ?? 'Non renseigné' }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>ID Keycloak:</strong></td>
-                                    <td><code>{{ user.keycloakId }}</code></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Rôles:</strong></td>
-                                    <td>
-                                        {% for role in user.roles %}
-                                            <span class="badge bg-secondary">{{ role }}</span>
-                                        {% endfor %}
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                <h2>Informations personnelles</h2>
+                <p><strong>Nom complet :</strong> {{ user.name }}</p>
+                <p><strong>Adresse email :</strong> {{ user.email }}</p>
+                <p><strong>Identifiant Keycloak :</strong> {{ user.keycloakId }}</p>
+                <p><strong>Rôles :</strong> {{ user.roles|join(', ') }}</p>
+            </div>
 
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5>Informations de session</h5>
-                            <div class="alert alert-info">
-                                <p><strong>Application:</strong> Symfony 6</p>
-                                <p><strong>Authentification:</strong> Keycloak SSO</p>
-                                <p><strong>URL de l'application:</strong> {{ app.request.schemeAndHttpHost }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="{{ path('app_dashboard') }}" class="btn btn-primary">Retour au Dashboard</a>
-                        <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a>
-                    </div>
-                </div>
+            <div class="card">
+                <h2>Informations de session</h2>
+                <p><strong>Compte créé le :</strong> {{ user.createdAt.format('d/m/Y à H:i') }}</p>
+                <p><strong>Dernière mise à jour :</strong> {{ user.updatedAt.format('d/m/Y à H:i') }}</p>
+                <p><strong>Statut :</strong> <span class="status-connected">✓ Actif</span></p>
             </div>
         </div>
     </div>
