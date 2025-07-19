@@ -1,0 +1,30 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Administration - Permissions{% endblock %}
+
+{% block admin_content %}
+    <div class="admin-header">
+        <h1>🔐 Permissions et Rôles</h1>
+    </div>
+
+    <div class="grid">
+        {% for role, perms in permissions %}
+            <div class="card">
+                <h2>
+                    <span class="role-badge role-{{ role|lower|replace({'role_': ''}) }}">
+                        {{ roleService.getRoleLabel(role) }}
+                    </span>
+                </h2>
+
+                <div class="permissions-list">
+                    {% for permission in perms %}
+                        <div class="permission-item">
+                            <span class="permission-icon">✓</span>
+                            {{ permission|replace('_', ' ')|title }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

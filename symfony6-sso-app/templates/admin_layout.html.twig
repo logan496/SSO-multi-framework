@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="admin-layout">
+        <nav class="admin-sidebar">
+            <div class="sidebar-header">
+                <h3>🛠️ Admin</h3>
+                <div class="user-info">
+                    <small>{{ app.user.name }}</small>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{{ path('admin_dashboard') }}" class="{{ app.request.get('_route') starts with 'admin_dashboard' ? 'active' : '' }}">📊 Dashboard</a></li>
+                <li><a href="{{ path('admin_users') }}" class="{{ app.request.get('_route') starts with 'admin_users' ? 'active' : '' }}">👥 Utilisateurs</a></li>
+                <li><a href="{{ path('admin_system') }}" class="{{ app.request.get('_route') starts with 'admin_system' ? 'active' : '' }}">🖥️ Système</a></li>
+                <li><a href="{{ path('admin_permissions') }}" class="{{ app.request.get('_route') starts with 'admin_permissions' ? 'active' : '' }}">🔐 Permissions</a></li>
+                <li class="separator"></li>
+                <li><a href="{{ path('app_dashboard') }}">🏠 Dashboard Principal</a></li>
+                <li><a href="{{ path('app_logout') }}">🚪 Déconnexion</a></li>
+            </ul>
+        </nav>
+
+        <main class="admin-content">
+            {% block admin_content %}{% endblock %}
+        </main>
+    </div>
+
+    <style>
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .admin-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 250px;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header h1 {
+            color: white;
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .admin-header p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 5px 0 0 0;
+        }
+
+        /* Styles communs déjà définis plus haut */
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin: 0;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 15px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid #fff;
+        }
+
+        .separator {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+        }
+
+        .user-info {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+{% endblock %}

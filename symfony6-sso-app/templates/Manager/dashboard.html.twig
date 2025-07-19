@@ -1,0 +1,324 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="manager-layout">
+        <nav class="manager-sidebar">
+            <div class="sidebar-header">
+                <h3>👔 Manager</h3>
+                <div class="user-info">
+                    <small>{{ user.name }}</small>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{{ path('manager_dashboard') }}" class="active">📊 Dashboard</a></li>
+                <li><a href="{{ path('manager_reports') }}">📈 Rapports</a></li>
+                <li><a href="#" onclick="showTeam()">👥 Équipe</a></li>
+                <li class="separator"></li>
+                <li><a href="{{ path('app_dashboard') }}">🏠 Dashboard Principal</a></li>
+                <li><a href="{{ path('app_logout') }}">🚪 Déconnexion</a></li>
+            </ul>
+        </nav>
+
+        <main class="manager-content">
+            <div class="manager-header">
+                <h1>📊 Dashboard Manager</h1>
+                <p>Gestion de votre équipe et suivi des activités</p>
+            </div>
+
+            <div class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <h3>{{ totalUsers }}</h3>
+                        <p>Utilisateurs gérés</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <h3>{{ (totalUsers * 0.8)|round }}</h3>
+                        <p>Utilisateurs actifs</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-info">
+                        <h3>+{{ random(5, 15) }}%</h3>
+                        <p>Croissance</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="managed-users">
+                <h2>Utilisateurs Gérés</h2>
+                <div class="users-grid">
+                    {% for managed_user in users %}
+                        <div class="user-card">
+                            <div class="user-avatar">{{ managed_user.name|first|upper }}</div>
+                            <div class="user-details">
+                                <h4>{{ managed_user.name }}</h4>
+                                <p>{{ managed_user.email }}</p>
+                                <div class="user-roles">
+                                    {% for role in managed_user.roles %}
+                                        <span class="role-badge">{{ role|replace({'ROLE_': ''})|title }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="user-actions">
+                                <button class="btn-small">👁️ Voir</button>
+                                <button class="btn-small">✏️ Modifier</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <style>
+        .manager-layout {
+            display: flex;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+
+        .manager-sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .manager-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 250px;
+            overflow-y: auto;
+        }
+
+        .manager-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .manager-header h1 {
+            color: white;
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .managed-users {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .managed-users h2 {
+            color: white;
+            margin: 0 0 20px 0;
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-details h4 {
+            color: white;
+            margin: 0 0 5px 0;
+            font-size: 1rem;
+        }
+
+        .user-details p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0 0 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .user-roles {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .role-badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .user-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-small:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Styles communs pour les sidebars */
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin: 0;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 15px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid #fff;
+        }
+
+        .separator {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+        }
+
+        .user-info {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-right: 20px;
+        }
+
+        .stat-info h3 {
+            color: white;
+            font-size: 2rem;
+            margin: 0 0 5px 0;
+        }
+
+        .stat-info p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        function showTeam() {
+        alert('Fonctionnalité équipe en cours de développement');
+        }
+    </style>
+
+    <script>
+        function showTeam() {
+            alert('Fonctionnalité équipe en cours de développement');
+        }
+    </script>
+{% endblock %}

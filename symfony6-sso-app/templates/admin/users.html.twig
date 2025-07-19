@@ -1,0 +1,48 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Administration - Utilisateurs{% endblock %}
+
+{% block admin_content %}
+    <div class="admin-header">
+        <h1>👥 Gestion des Utilisateurs</h1>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Rôles</th>
+                    <th>Keycloak ID</th>
+                    <th>Dernière Connexion</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% for role in user.roles %}
+                                <span class="role-badge role-{{ role|lower|replace({'role_': ''}) }}">
+                                        {{ roleService.getRoleLabel(role) }}
+                                    </span>
+                            {% endfor %}
+                        </td>
+                        <td><code>{{ user.keycloakId|slice(0, 8) }}...</code></td>
+                        <td>{{ user.updatedAt.format('d/m/Y H:i') }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info">Voir</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

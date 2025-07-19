@@ -832,10 +832,10 @@ class ApiController extends AbstractController
 ## 15. Migration Database
 
 ```bash
-# Créer la migration
-php bin/console make:migration
+# Créer la migration.php
+php bin/console make:migration.php
 
-# Exécuter la migration
+# Exécuter la migration.php
 php bin/console doctrine:migrations:migrate
 ```
 

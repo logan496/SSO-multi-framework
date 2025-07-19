@@ -1,0 +1,61 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Administration - Système{% endblock %}
+
+{% block admin_content %}
+    <div class="admin-header">
+        <h1>🖥️ Informations Système</h1>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h2>⚙️ Configuration PHP</h2>
+            <div class="info-list">
+                <div class="info-item">
+                    <strong>Version PHP:</strong>
+                    <span>{{ systemInfo.php_version }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Limite Mémoire:</strong>
+                    <span>{{ systemInfo.memory_limit }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Utilisation Mémoire:</strong>
+                    <span>{{ systemInfo.memory_usage }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 Framework</h2>
+            <div class="info-list">
+                <div class="info-item">
+                    <strong>Version Symfony:</strong>
+                    <span>{{ systemInfo.symfony_version }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Environnement:</strong>
+                    <span>{{ app.environment }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Mode Debug:</strong>
+                    <span>{{ app.debug ? 'Activé' : 'Désactivé' }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🕒 Temps Serveur</h2>
+            <div class="info-list">
+                <div class="info-item">
+                    <strong>Heure Serveur:</strong>
+                    <span>{{ systemInfo.server_time }}</span>
+                </div>
+{#                <div class="info-item">#}
+{#                    <strong>Timezone:</strong>#}
+{#                    <span>{{ date().timezone.name }}</span>#}
+{#                </div>#}
+            </div>
+        </div>
+    </div>
+{% endblock %}

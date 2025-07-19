@@ -1,0 +1,332 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="manager-layout">
+        <nav class="manager-sidebar">
+            <div class="sidebar-header">
+                <h3>👔 Manager</h3>
+                <div class="user-info">
+                    <small>{{ app.user.name }}</small>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{{ path('manager_dashboard') }}">📊 Dashboard</a></li>
+                <li><a href="{{ path('manager_reports') }}" class="active">📈 Rapports</a></li>
+                <li><a href="#" onclick="showTeam()">👥 Équipe</a></li>
+                <li class="separator"></li>
+                <li><a href="{{ path('app_dashboard') }}">🏠 Dashboard Principal</a></li>
+                <li><a href="{{ path('app_logout') }}">🚪 Déconnexion</a></li>
+            </ul>
+        </nav>
+
+        <main class="manager-content">
+            <div class="manager-header">
+                <h1>📈 Rapports et Statistiques</h1>
+                <p>Analyses détaillées de l'activité de votre équipe</p>
+            </div>
+
+            <div class="reports-grid">
+                <div class="report-card">
+                    <h3>📊 Activité Quotidienne</h3>
+                    <div class="chart-placeholder">
+                        <div class="chart-bars">
+                            <div class="bar" style="height: 60%"></div>
+                            <div class="bar" style="height: 80%"></div>
+                            <div class="bar" style="height: 45%"></div>
+                            <div class="bar" style="height: 90%"></div>
+                            <div class="bar" style="height: 70%"></div>
+                            <div class="bar" style="height: 85%"></div>
+                            <div class="bar" style="height: 55%"></div>
+                        </div>
+                        <div class="chart-labels">
+                            <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <h3>👥 Utilisateurs Actifs</h3>
+                    <div class="metric-large">
+                        <span class="number">{{ random(150, 300) }}</span>
+                        <span class="label">Connexions cette semaine</span>
+                    </div>
+                    <div class="metric-trend">
+                        <span class="trend-up">↗ +12% vs semaine dernière</span>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <h3>⏱️ Temps Moyen de Session</h3>
+                    <div class="metric-large">
+                        <span class="number">{{ random(25, 45) }}min</span>
+                        <span class="label">Durée moyenne</span>
+                    </div>
+                    <div class="metric-trend">
+                        <span class="trend-down">↘ -3% vs semaine dernière</span>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <h3>🔄 Taux de Rétention</h3>
+                    <div class="progress-circle">
+                        <div class="circle">
+                            <span>{{ random(75, 95) }}%</span>
+                        </div>
+                    </div>
+                    <p>Utilisateurs revenus cette semaine</p>
+                </div>
+            </div>
+
+            <div class="detailed-reports">
+                <h2>Rapports Détaillés</h2>
+                <div class="report-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Métrique</th>
+                            <th>Aujourd'hui</th>
+                            <th>Cette Semaine</th>
+                            <th>Ce Mois</th>
+                            <th>Tendance</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Nouvelles connexions</td>
+                            <td>{{ random(10, 30) }}</td>
+                            <td>{{ random(80, 150) }}</td>
+                            <td>{{ random(300, 500) }}</td>
+                            <td><span class="trend-up">📈 +8%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Sessions actives</td>
+                            <td>{{ random(45, 75) }}</td>
+                            <td>{{ random(200, 350) }}</td>
+                            <td>{{ random(800, 1200) }}</td>
+                            <td><span class="trend-up">📈 +15%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Temps moyen/session</td>
+                            <td>{{ random(20, 40) }}min</td>
+                            <td>{{ random(25, 45) }}min</td>
+                            <td>{{ random(30, 50) }}min</td>
+                            <td><span class="trend-down">📉 -2%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Taux de rebond</td>
+                            <td>{{ random(15, 25) }}%</td>
+                            <td>{{ random(18, 28) }}%</td>
+                            <td>{{ random(20, 30) }}%</td>
+                            <td><span class="trend-down">📉 -5%</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="export-section">
+                <h2>Exporter les Rapports</h2>
+                <div class="export-buttons">
+                    <button class="export-btn">📄 PDF</button>
+                    <button class="export-btn">📊 Excel</button>
+                    <button class="export-btn">📋 CSV</button>
+                    <button class="export-btn">📧 Email</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <style>
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .report-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .report-card h3 {
+            color: white;
+            margin: 0 0 20px 0;
+            font-size: 1.1rem;
+        }
+
+        .chart-placeholder {
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            height: 120px;
+            gap: 5px;
+        }
+
+        .bar {
+            background: linear-gradient(to top, #f39c12, #e67e22);
+            width: 20px;
+            border-radius: 3px 3px 0 0;
+            transition: height 0.3s ease;
+        }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        .metric-large {
+            margin-bottom: 15px;
+        }
+
+        .metric-large .number {
+            display: block;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-large .label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .metric-trend {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .trend-up {
+            color: #2ecc71;
+        }
+
+        .trend-down {
+            color: #e74c3c;
+        }
+
+        .progress-circle {
+            margin-bottom: 15px;
+        }
+
+        .circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(#f39c12 0deg 270deg, rgba(255,255,255,0.2) 270deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            position: relative;
+        }
+
+        .circle::before {
+            content: '';
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.8);
+            position: absolute;
+        }
+
+        .circle span {
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            z-index: 1;
+        }
+
+        .detailed-reports {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .detailed-reports h2 {
+            color: white;
+            margin: 0 0 20px 0;
+        }
+
+        .report-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .report-table th {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-weight: 600;
+        }
+
+        .report-table td {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .export-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .export-section h2 {
+            color: white;
+            margin: 0 0 20px 0;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+
+    <script>
+        function showTeam() {
+            alert('Fonctionnalité équipe en cours de développement');
+        }
+    </script>
+{% endblock %}
