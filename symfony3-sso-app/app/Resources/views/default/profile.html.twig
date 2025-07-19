@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil - Symfony 3 SSO App{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>Mon Profil</h1>
+                <span class="symfony-badge">Symfony 3.4 LTS</span>
+            </div>
+            <div class="user-info">
+                <a href="{{ path('homepage') }}" class="btn btn-secondary">Retour au Dashboard</a>
+                <a href="{{ path('hwi_oauth_service_redirect', {'service': 'keycloak'}) }}" class="btn">Se déconnecter</a>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Informations personnelles</h2>
+                <p><strong>Nom complet :</strong> {{ user.name }}</p>
+                <p><strong>Adresse email :</strong> {{ user.email }}</p>
+                <p><strong>Nom d'utilisateur :</strong> {{ user.username }}</p>
+                <p><strong>Identifiant Keycloak :</strong> {{ user.keycloakId }}</p>
+                <p><strong>Rôles :</strong> {{ user.roles|join(', ') }}</p>
+            </div>
+
+            <div class="card">
+                <h2>Informations de session</h2>
+                <p><strong>Compte créé le :</strong> {{ user.createdAt|date('d/m/Y à H:i') }}</p>
+                <p><strong>Dernière mise à jour :</strong> {{ user.updatedAt|date('d/m/Y à H:i') }}</p>
+                <p><strong>Statut :</strong> <span class="status-connected">✓ Actif</span></p>
+                <p><strong>Framework :</strong> Symfony 3.4 LTS</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

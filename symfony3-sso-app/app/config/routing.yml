@@ -1,0 +1,77 @@
+#homepage:
+#    path: /
+#    defaults: { _controller: AppBundle:Default:index }
+#
+#login:
+#    path: /login
+#    defaults: { _controller: AppBundle:Default:login }
+#
+#profile:
+#    path: /profile
+#    defaults: { _controller: AppBundle:Default:profile }
+#
+#api_status:
+#    path: /api/status
+#    defaults: { _controller: AppBundle:Default:getStatus }
+#    methods: [GET]
+#
+#api_user:
+#    path: /api/user
+#    defaults: { _controller: AppBundle:Default:getUserInfo }
+#    methods: [GET]
+#
+## Route explicite pour le callback Keycloak
+#login_check_keycloak:
+#    path: /login_check_keycloak
+#
+## HWI OAuth routes
+#hwi_oauth_redirect:
+#    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+#    prefix: /connect
+#
+#hwi_oauth_connect:
+#    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+#    prefix: /connect
+#
+#hwi_oauth_login:
+#    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+#    prefix: /login
+
+homepage:
+    path: /
+    defaults: { _controller: AppBundle:Default:index }
+
+login:
+    path: /login
+    defaults: { _controller: AppBundle:Default:login }
+
+profile:
+    path: /profile
+    defaults: { _controller: AppBundle:Default:profile }
+
+api_status:
+    path: /api/status
+    defaults: { _controller: AppBundle:Default:getStatus }
+    methods: [GET]
+
+api_user:
+    path: /api/user
+    defaults: { _controller: AppBundle:Default:getUserInfo }
+    methods: [GET]
+
+# Route explicite pour le callback Keycloak - FIXED PATH
+login_check_keycloak:
+    path: /login/check-keycloak
+
+# HWI OAuth routes
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix: /connect
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix: /connect
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix: /login

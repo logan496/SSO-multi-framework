@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard - Symfony 3 SSO App{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>Dashboard Symfony 3</h1>
+                <span class="symfony-badge">Symfony 3.4 LTS</span>
+            </div>
+            <div class="user-info">
+                <span>Bienvenue, {{ user.name }}</span>
+                <a href="{{ path('profile') }}" class="btn btn-secondary">Profil</a>
+                <a href="{{ path('hwi_oauth_service_redirect', {'service': 'keycloak'}) }}" class="btn">Se déconnecter</a>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Informations utilisateur</h2>
+                <p><strong>Nom :</strong> {{ user.name }}</p>
+                <p><strong>Email :</strong> {{ user.email }}</p>
+                <p><strong>Keycloak ID :</strong> {{ user.keycloakId }}</p>
+                <p><strong>Dernière connexion :</strong> {{ user.updatedAt|date('d/m/Y H:i') }}</p>
+
+                <a href="{{ path('profile') }}" class="btn">Voir le profil</a>
+            </div>
+
+            <div class="card">
+                <h2>Applications du Challenge</h2>
+                <p>Accédez aux autres applications sans vous reconnecter :</p>
+
+                {% for name, url in apps %}
+                    <div style="margin-bottom: 0.5rem;">
+                        <a href="{{ url }}" class="btn" target="_blank">{{ name }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="card">
+                <h2>API Endpoints</h2>
+                <p>Testez les endpoints API :</p>
+
+                <div style="margin-bottom: 0.5rem;">
+                    <a href="{{ path('api_user') }}" class="btn" target="_blank">GET /api/user</a>
+                </div>
+                <div style="margin-bottom: 0.5rem;">
+                    <a href="{{ path('api_status') }}" class="btn" target="_blank">GET /api/status</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Statut SSO</h2>
+                <p><strong>Statut :</strong> <span class="status-connected">✓ Connecté</span></p>
+                <p><strong>Application :</strong> Symfony 3 SSO App</p>
+                <p><strong>Version :</strong> Symfony 3.4 LTS</p>
+                <p><strong>Realm :</strong> multiframework-sso</p>
+                <p><strong>Session :</strong> Active</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

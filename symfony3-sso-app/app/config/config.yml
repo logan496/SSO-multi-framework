@@ -1,0 +1,76 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+framework:
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: en
+    trusted_hosts: ~
+    session:
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+
+# HWI OAuth Bundle Configuration
+hwi_oauth:
+    firewall_names: [secured_area]
+    resource_owners:
+        keycloak:
+            type: oauth2
+            client_id: '%keycloak_client_id%'
+            client_secret: '%keycloak_client_secret%'
+            authorization_url: '%keycloak_server_url%/realms/%keycloak_realm%/protocol/openid-connect/auth'
+            access_token_url: '%keycloak_server_url%/realms/%keycloak_realm%/protocol/openid-connect/token'
+            infos_url: '%keycloak_server_url%/realms/%keycloak_realm%/protocol/openid-connect/userinfo'
+            scope: "openid profile email"
+            user_response_class: HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
+            paths:
+                identifier: sub
+                nickname: preferred_username
+                realname: name
+                email: email
+                profilepicture: picture
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_sqlite
+        path: '%database_path%'
+        charset: UTF8
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        mappings:
+            AppBundle:
+                mapping: true
+                type: annotation
+                dir: '%kernel.root_dir%/../src/AppBundle/Entity'
+                alias: AppBundle
+                prefix: AppBundle\Entity
+                is_bundle: false
+
+httplug:
+    clients:
+        default:
+            factory: 'httplug.factory.guzzle6'
+            plugins: ['httplug.plugin.logger']
+            config:
+                timeout: 30

@@ -1,0 +1,41 @@
+security:
+    providers:
+        oauth_user_provider:
+            id: app.oauth_user_provider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        # API firewall - stateless, pas d'OAuth ici
+        api:
+            pattern: ^/api
+            anonymous: true
+            stateless: true
+
+        # Firewall principal avec OAuth
+        secured_area:
+            pattern: ^/
+            anonymous: true
+            oauth:
+                resource_owners:
+                    keycloak: "/login/check-keycloak"
+                login_path: /login
+                use_forward: false
+                failure_path: /login
+                oauth_user_provider:
+                    service: app.oauth_user_provider
+                check_path: /login/check-keycloak
+            logout:
+                path: /logout
+                target: /
+                invalidate_session: true
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/connect, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/status, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/user, roles: ROLE_USER }
+        - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
