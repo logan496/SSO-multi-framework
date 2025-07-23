@@ -5,10 +5,21 @@ security:
                 class: App\Entity\User
                 property: email
 
+        keycloak_token_users:
+            id: App\Security\KeycloakUserProvider
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        api:
+            pattern: ^/(api|test)
+            stateless: true
+            provider: keycloak_token_users
+            custom_authenticators:
+                - App\Security\KeycloakTokenAuthenticator
+
         main:
             lazy: true
             provider: app_user_provider
@@ -29,11 +40,11 @@ security:
         - { path: ^/connect, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/manager, roles: ROLE_MANAGER }
-        - { path: ^/api/admin, roles: admin }
+        - { path: ^/api/admin, roles: ROLE_ADMIN }
+        - { path: ^/test, roles: ROLE_ADMIN}
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
     role_hierarchy:
         ROLE_MANAGER: ROLE_USER
         ROLE_ADMIN:  [ROLE_MANAGER, ROLE_USER]
-        ROLE_SUPER_ADMIN:  admin
-
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
