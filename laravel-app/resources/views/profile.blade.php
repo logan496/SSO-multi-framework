@@ -22,6 +22,9 @@
                 <strong>Email vérifié :</strong>
                 <span>{{ $user->email_verified_at ? '✓ Oui' : '✗ Non' }}</span>
 
+                <strong>Rôle utilisateur :</strong>
+                <span>{{ $user->role }}</span>
+
                 <strong>Compte créé :</strong>
                 <span>{{ $user->created_at->format('d/m/Y H:i') }}</span>
 

@@ -17,7 +17,7 @@ class DashboardController extends Controller
             'user' => $user,
             'apps' => [
                 'Symfony 2' => 'http://localhost:8001',
-                'Symfony 3' => 'http://localhost:8002',
+                'Symfony 3' => 'http://localhost:8002/',
                 'Symfony 6' => 'http://localhost:8003',
                 'React App' => 'http://localhost:5173',
             ]

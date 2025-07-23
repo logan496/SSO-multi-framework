@@ -48,6 +48,14 @@ return [
         'redirect' => 'http://localhost:8000/auth/callback',
         'base_url' => 'http://localhost:8080',
         'realms' => 'multiframework-sso',
+        'symfony_audience' => 'symfony6-app'
     ],
+
+    'symfony' => [
+        'base_url' => 'http://localhost:8003',
+        'timeout' => 30,
+        'retry_attempts' => 3,
+        'api_key' => 'Why2GQHTZAF2amMQHHaUSSngkjZ61Q8taLrye77OuBe4iP5uzzMff3y2QlSLkLXv'
+    ]
 
 ];

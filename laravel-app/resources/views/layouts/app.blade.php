@@ -39,7 +39,7 @@
                 @auth
                     <span>Bonjour, {{ Auth::user()->name }}</span>
                     <a href="{{ route('dashboard') }}" class="btn" style="margin-left: 1rem;">Dashboard</a>
-                    <form method="POST" action="{{ route('logout') }}" style="display: inline; margin-left: 1rem;">
+                    <form method="GET" action="{{ route('logout') }}" style="display: inline; margin-left: 1rem;">
                         @csrf
                         <button type="submit" class="btn btn-danger">Déconnexion</button>
                     </form>

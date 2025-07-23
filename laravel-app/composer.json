@@ -15,7 +15,8 @@
         "laravel/socialite": "^5.21",
         "laravel/tinker": "^2.10.1",
         "socialiteproviders/keycloak": "^5.3",
-        "vizir/laravel-keycloak-web-guard": "^4.1"
+        "vizir/laravel-keycloak-web-guard": "^4.1",
+        "ext-http": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
