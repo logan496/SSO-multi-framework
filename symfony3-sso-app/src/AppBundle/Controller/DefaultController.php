@@ -14,8 +14,7 @@ class DefaultController extends Controller
 
         $apps = [
             'Laravel SSO App' => 'http://localhost:8000',
-            'React SSO App' => 'http://localhost:3000',
-            'Symfony 3 SSO App' => 'http://localhost:8002'
+            'Symfony 6 SSO App' => 'http://localhost:8003'
         ];
 
         return $this->render('default/dashboard.html.twig', [
